@@ -96,7 +96,7 @@
             '$(IBM_DB_HOME)/lib/db2app64.lib'
           ],
           'include_dirs': [
-            '$(IBM_DB_HOME)/include',
+            'deps/db2cli/include',
           ],
         }],
         [ 'OS != "linux" and OS!="win" and OS!="darwin" and target_arch=="ia32" ', {
