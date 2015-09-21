@@ -691,7 +691,7 @@ Parameter* ODBC::GetParametersFromArray (Local<Array> values, int *paramCount) {
     params[i].buffer_length = 0;
     params[i].decimals      = 0;
 
-    DEBUG_PRINTF("ODBC::GetParametersFromArray - &param[%i].length = %X\n",
+    DEBUG_PRINTF("ODBC::GetParametersFromArray - &param[%i].length = %p\n",
                  i, &params[i].length);
 
     if (value->IsString()) {

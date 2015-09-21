@@ -66,12 +66,12 @@ void ODBCResult::Init(v8::Handle<Object> exports) {
 }
 
 ODBCResult::~ODBCResult() {
-  DEBUG_PRINTF("ODBCResult::~ODBCResult m_hSTMT=%x\n", m_hSTMT);
+  DEBUG_PRINTF("ODBCResult::~ODBCResult m_hSTMT=%p\n", m_hSTMT);
   this->Free();
 }
 
 void ODBCResult::Free() {
-  DEBUG_PRINTF("ODBCResult::Free m_hSTMT=%X m_canFreeHandle=%X\n", m_hSTMT, m_canFreeHandle);
+  DEBUG_PRINTF("ODBCResult::Free m_hSTMT=%p m_canFreeHandle=%X\n", m_hSTMT, m_canFreeHandle);
   
   if (m_hSTMT && m_canFreeHandle) {
     uv_mutex_lock(&ODBC::g_odbcMutex);
@@ -106,7 +106,7 @@ NAN_METHOD(ODBCResult::New) {
   //create a new OBCResult object
   ODBCResult* objODBCResult = new ODBCResult(hENV, hDBC, hSTMT, *canFreeHandle);
   
-  DEBUG_PRINTF("ODBCResult::New m_hDBC=%X m_hDBC=%X m_hSTMT=%X canFreeHandle=%X\n",
+  DEBUG_PRINTF("ODBCResult::New m_hDBC=%p m_hDBC=%p m_hSTMT=%p canFreeHandle=%X\n",
     objODBCResult->m_hENV,
     objODBCResult->m_hDBC,
     objODBCResult->m_hSTMT,

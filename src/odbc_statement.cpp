@@ -674,7 +674,7 @@ void ODBCStatement::UV_Prepare(uv_work_t* req) {
   
   prepare_work_data* data = (prepare_work_data *)(req->data);
 
-  DEBUG_PRINTF("ODBCStatement::UV_Prepare m_hDBC=%X m_hDBC=%X m_hSTMT=%X\n",
+  DEBUG_PRINTF("ODBCStatement::UV_Prepare m_hDBC=%p m_hDBC=%p m_hSTMT=%p\n",
     data->stmt->m_hENV,
     data->stmt->m_hDBC,
     data->stmt->m_hSTMT
@@ -695,7 +695,7 @@ void ODBCStatement::UV_AfterPrepare(uv_work_t* req, int status) {
   
   prepare_work_data* data = (prepare_work_data *)(req->data);
   
-  DEBUG_PRINTF("ODBCStatement::UV_AfterPrepare m_hDBC=%X m_hDBC=%X m_hSTMT=%X\n",
+  DEBUG_PRINTF("ODBCStatement::UV_AfterPrepare m_hDBC=%p m_hDBC=%p m_hSTMT=%p\n",
     data->stmt->m_hENV,
     data->stmt->m_hDBC,
     data->stmt->m_hSTMT
@@ -749,7 +749,7 @@ NAN_METHOD(ODBCStatement::BindSync) {
 
   ODBCStatement* stmt = ObjectWrap::Unwrap<ODBCStatement>(args.Holder());
   
-  DEBUG_PRINTF("ODBCStatement::BindSync m_hDBC=%X m_hDBC=%X m_hSTMT=%X\n",
+  DEBUG_PRINTF("ODBCStatement::BindSync m_hDBC=%p m_hDBC=%p m_hSTMT=%p\n",
     stmt->m_hENV,
     stmt->m_hDBC,
     stmt->m_hSTMT
@@ -791,7 +791,7 @@ NAN_METHOD(ODBCStatement::BindSync) {
     
     DEBUG_PRINTF(
       "ODBCStatement::BindSync - param[%i]: c_type=%i type=%i "
-      "buffer_length=%i size=%i length=%i &length=%X decimals=%i value=%s\n",
+      "buffer_length=%i size=%i length=%i &length=%p decimals=%i value=%s\n",
       i, prm.c_type, prm.type, prm.buffer_length, prm.size, prm.length, 
       &stmt->params[i].length, prm.decimals,
       ((prm.length <= 0)? "" : prm.buffer) 
@@ -880,7 +880,7 @@ NAN_METHOD(ODBCStatement::Bind) {
   
   data->stmt = stmt;
   
-  DEBUG_PRINTF("ODBCStatement::Bind m_hDBC=%X m_hDBC=%X m_hSTMT=%X\n",
+  DEBUG_PRINTF("ODBCStatement::Bind m_hDBC=%p m_hDBC=%p m_hSTMT=%p\n",
     data->stmt->m_hENV,
     data->stmt->m_hDBC,
     data->stmt->m_hSTMT
@@ -910,7 +910,7 @@ void ODBCStatement::UV_Bind(uv_work_t* req) {
   
   bind_work_data* data = (bind_work_data *)(req->data);
 
-  DEBUG_PRINTF("ODBCStatement::UV_Bind m_hDBC=%X m_hDBC=%X m_hSTMT=%X\n",
+  DEBUG_PRINTF("ODBCStatement::UV_Bind m_hDBC=%p m_hDBC=%p m_hSTMT=%p\n",
     data->stmt->m_hENV,
     data->stmt->m_hDBC,
     data->stmt->m_hSTMT
@@ -924,7 +924,7 @@ void ODBCStatement::UV_Bind(uv_work_t* req) {
     
     DEBUG_PRINTF(
       "ODBCStatement::UV_Bind - param[%i]: c_type=%i type=%i "
-      "buffer_length=%i size=%i length=%i &length=%X decimals=%i value=%s\n",
+      "buffer_length=%i size=%i length=%i &length=%p decimals=%i value=%s\n",
       i, prm.c_type, prm.type, prm.buffer_length, prm.size, prm.length, 
       &data->stmt->params[i].length, prm.decimals, prm.buffer
     );

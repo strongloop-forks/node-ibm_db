@@ -613,8 +613,8 @@ void ODBCConnection::UV_CreateStatement(uv_work_t* req) {
   //get our work data
   create_statement_work_data* data = (create_statement_work_data *)(req->data);
 
-  DEBUG_PRINTF("ODBCConnection::UV_CreateStatement m_hDBC=%X m_hDBC=%X m_hSTMT=%X\n",
-    data->conn->m_hENV,
+  DEBUG_PRINTF("ODBCConnection::UV_CreateStatement m_hDBC=%p m_hDBC=%p m_hSTMT=%p\n",
+    (void*) data->conn->m_hENV,
     data->conn->m_hDBC,
     data->hSTMT
   );
@@ -628,7 +628,7 @@ void ODBCConnection::UV_CreateStatement(uv_work_t* req) {
 
   uv_mutex_unlock(&ODBC::g_odbcMutex);
   
-  DEBUG_PRINTF("ODBCConnection::UV_CreateStatement m_hDBC=%X m_hDBC=%X m_hSTMT=%X\n",
+  DEBUG_PRINTF("ODBCConnection::UV_CreateStatement m_hDBC=%p m_hDBC=%p m_hSTMT=%p\n",
     data->conn->m_hENV,
     data->conn->m_hDBC,
     data->hSTMT
@@ -641,7 +641,7 @@ void ODBCConnection::UV_AfterCreateStatement(uv_work_t* req, int status) {
 
   create_statement_work_data* data = (create_statement_work_data *)(req->data);
 
-  DEBUG_PRINTF("ODBCConnection::UV_AfterCreateStatement m_hDBC=%X m_hDBC=%X hSTMT=%X\n",
+  DEBUG_PRINTF("ODBCConnection::UV_AfterCreateStatement m_hDBC=%p m_hDBC=%p hSTMT=%p\n",
     data->conn->m_hENV,
     data->conn->m_hDBC,
     data->hSTMT
@@ -840,7 +840,7 @@ void ODBCConnection::UV_Query(uv_work_t* req) {
         
         DEBUG_PRINTF(
           "ODBCConnection::UV_Query - param[%i]: c_type=%i type=%i "
-          "buffer_length=%i size=%i length=%i &length=%X\n", i, prm.c_type, prm.type, 
+          "buffer_length=%i size=%i length=%i &length=%p\n", i, prm.c_type, prm.type,
           prm.buffer_length, prm.size, prm.length, &data->params[i].length);
 
         ret = SQLBindParameter(
@@ -1099,7 +1099,7 @@ NAN_METHOD(ODBCConnection::QuerySync) {
         
         DEBUG_PRINTF(
           "ODBCConnection::UV_Query - param[%i]: c_type=%i type=%i "
-          "buffer_length=%i size=%i length=%i &length=%X\n", i, prm.c_type, prm.type, 
+          "buffer_length=%i size=%i length=%i &length=%p\n", i, prm.c_type, prm.type,
           prm.buffer_length, prm.size, prm.length, &params[i].length);
 
         ret = SQLBindParameter(
