@@ -92,8 +92,8 @@
             'src/odbc.cpp'
           ],
           'libraries': [
-            '$(IBM_DB_HOME)/lib/db2cli64.lib',
-            '$(IBM_DB_HOME)/lib/db2app64.lib'
+            '../deps/db2cli/lib/win-x64/db2ci64.lib',
+            '../deps/db2cli/lib/win-x64/db2api.lib'
           ],
           'include_dirs': [
             'deps/db2cli/include',
