@@ -497,22 +497,6 @@ flag `DEBUG` to the defines section of the `binding.gyp` file and then execute
 ],
 <snip>
 ```
-### Unicode
-
-By default, UNICODE suppport is enabled. This should provide the most accurate
-way to get Unicode strings submitted to your database. For best results, you 
-may want to put your Unicode string into bound parameters. 
-
-However, if you experience issues or you think that submitting UTF8 strings will
-work better or faster, you can remove the `UNICODE` define in `binding.gyp`
-
-```javascript
-<snip>
-'defines' : [
-  "UNICODE"
-],
-<snip>
-```
 
 ### timegm vs timelocal
 

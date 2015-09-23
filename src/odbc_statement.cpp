@@ -438,13 +438,8 @@ NAN_METHOD(ODBCStatement::ExecuteDirect) {
 
   data->sqlLen = sql->Length();
 
-#ifdef UNICODE
   data->sql = (uint16_t *) malloc((data->sqlLen * sizeof(uint16_t)) + sizeof(uint16_t));
   sql->Write((uint16_t *) data->sql);
-#else
-  data->sql = (char *) malloc(data->sqlLen +1);
-  sql->WriteUtf8((char *) data->sql);
-#endif
 
   data->stmt = stmt;
   work_req->data = data;
@@ -535,11 +530,7 @@ NAN_METHOD(ODBCStatement::ExecuteDirectSync) {
   
   NanScope();
 
-#ifdef UNICODE
   REQ_WSTR_ARG(0, sql);
-#else
-  REQ_STR_ARG(0, sql);
-#endif
 
   ODBCStatement* stmt = ObjectWrap::Unwrap<ODBCStatement>(args.Holder());
   
@@ -593,15 +584,9 @@ NAN_METHOD(ODBCStatement::PrepareSync) {
 
   int sqlLen = sql->Length() + 1;
 
-#ifdef UNICODE
   uint16_t *sql2;
   sql2 = (uint16_t *) malloc(sqlLen * sizeof(uint16_t));
   sql->Write(sql2);
-#else
-  char *sql2;
-  sql2 = (char *) malloc(sqlLen);
-  sql->WriteUtf8(sql2);
-#endif
   
   ret = SQLPrepare(
     stmt->m_hSTMT,
@@ -646,13 +631,8 @@ NAN_METHOD(ODBCStatement::Prepare) {
 
   data->sqlLen = sql->Length();
 
-#ifdef UNICODE
   data->sql = (uint16_t *) malloc((data->sqlLen * sizeof(uint16_t)) + sizeof(uint16_t));
   sql->Write((uint16_t *) data->sql);
-#else
-  data->sql = (char *) malloc(data->sqlLen +1);
-  sql->WriteUtf8((char *) data->sql);
-#endif
   
   data->stmt = stmt;
   

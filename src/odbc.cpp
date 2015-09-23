@@ -587,19 +587,11 @@ Handle<Value> ODBC::GetColumnValue( SQLHSTMT hStmt, Column column,
           
           if (count == 0) {
             //no concatenation required, this is our first pass
-#ifdef UNICODE
             str = NanNew((uint16_t*) buffer);
-#else
-            str = NanNew((char *) buffer);
-#endif
           }
           else {
             //we need to concatenate
-#ifdef UNICODE
             str = String::Concat(str, NanNew((uint16_t*) buffer));
-#else
-            str = String::Concat(str, NanNew((char *) buffer));
-#endif
           }
           
           count += 1;
@@ -642,13 +634,8 @@ Local<Object> ODBC::GetRecordTuple ( SQLHSTMT hStmt, Column* columns,
   Local<Object> tuple = NanNew<Object>();
         
   for(int i = 0; i < *colCount; i++) {
-#ifdef UNICODE
     tuple->Set( NanNew((uint16_t *) columns[i].name),
                 GetColumnValue( hStmt, columns[i], buffer, bufferLength));
-#else
-    tuple->Set( NanNew((const char *) columns[i].name),
-                GetColumnValue( hStmt, columns[i], buffer, bufferLength));
-#endif
   }
   
   return NanEscapeScope(tuple);
@@ -699,22 +686,13 @@ Parameter* ODBC::GetParametersFromArray (Local<Array> values, int *paramCount) {
       int length = string->Length();
       
       params[i].c_type        = SQL_C_TCHAR;
-#ifdef UNICODE
       params[i].type          = (length >= 8000) ? SQL_WLONGVARCHAR : SQL_WVARCHAR;
       params[i].buffer_length = (length * sizeof(uint16_t)) + sizeof(uint16_t);
-#else
-      params[i].type          = (length >= 8000) ? SQL_LONGVARCHAR : SQL_VARCHAR;
-      params[i].buffer_length = string->Utf8Length() + 1;
-#endif
       params[i].buffer        = malloc(params[i].buffer_length);
       params[i].size          = params[i].buffer_length;
       params[i].length        = SQL_NTS;//params[i].buffer_length;
 
-#ifdef UNICODE
       string->Write((uint16_t *) params[i].buffer);
-#else
-      string->WriteUtf8((char *) params[i].buffer);
-#endif
 
       DEBUG_PRINTF("ODBC::GetParametersFromArray - IsString(): params[%i] "
                    "c_type=%i type=%i buffer_length=%i size=%i length=%i "
@@ -877,15 +855,9 @@ Local<Object> ODBC::GetSQLError (SQLSMALLINT handleType, SQLHANDLE handle, char*
       DEBUG_TPRINTF(SQL_T("ODBC::GetSQLError : errorMessage=%s, errorSQLState=%s\n"), errorMessage, errorSQLState);
       
       objError->Set(NanNew("error"), NanNew(message));
-#ifdef UNICODE
       objError->SetPrototype(Exception::Error(NanNew((uint16_t *) errorMessage)));
       objError->Set(NanNew("message"), NanNew((uint16_t *) errorMessage));
       objError->Set(NanNew("state"), NanNew((uint16_t *) errorSQLState));
-#else
-      objError->SetPrototype(Exception::Error(NanNew(errorMessage)));
-      objError->Set(NanNew("message"), NanNew(errorMessage));
-      objError->Set(NanNew("state"), NanNew(errorSQLState));
-#endif
     } else if (ret == SQL_NO_DATA) {
       break;
     }
